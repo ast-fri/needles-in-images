@@ -1,6 +1,6 @@
 # Finding Needles in Images: Can Multi-modal LLMs Locate Fine Details?
 
-Welcome! This repository contains the **NiM-Benchmark** and **Spot-IT** method for evaluating and improving Multi-modal Large Language Models (MLLMs) on fine-grained visual document understanding tasks.
+Welcome! This repository contains the tech-blog code explanining **NiM-Benchmark** and **Spot-IT** method for evaluating and improving Multi-modal Large Language Models (MLLMs) on fine-grained visual document understanding tasks.
 
 ## 🔍 Overview
 
