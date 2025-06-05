@@ -315,36 +315,112 @@
     }
 
     .table-of-contents {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 20px;
-      padding: 32px;
-      margin-bottom: 40px;
-      box-shadow: var(--shadow-lg);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 50px;
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
       position: sticky;
       top: 20px;
       z-index: 100;
       animation: slideInDown 0.8s ease-out;
+      overflow: hidden;
+    }
+
+    .table-of-contents::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--secondary-color));
+      border-radius: 24px 24px 0 0;
+    }
+
+    .table-of-contents::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: float 25s ease-in-out infinite;
+      pointer-events: none;
     }
 
     @keyframes slideInDown {
       from {
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(-40px) scale(0.95);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
 
     .table-of-contents h3 {
       margin-top: 0;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       color: var(--text-primary);
-      font-size: 1.3rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .table-of-contents h3::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      border-radius: 2px;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .toc-section {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .toc-section:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .toc-section-title {
+      font-size: 1rem;
       font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -353,9 +429,7 @@
     .table-of-contents ul {
       list-style: none;
       padding-left: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
+      margin: 0;
     }
 
     .table-of-contents li {
@@ -366,12 +440,16 @@
       color: var(--text-secondary);
       text-decoration: none;
       font-weight: 500;
-      padding: 8px 16px;
+      padding: 10px 16px;
       border-radius: 12px;
-      display: block;
-      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
     }
 
     .table-of-contents a::before {
@@ -383,17 +461,75 @@
       height: 100%;
       background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
       opacity: 0.1;
-      transition: left 0.3s ease;
+      transition: left 0.4s ease;
+    }
+
+    .table-of-contents a::after {
+      content: '→';
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+      color: var(--primary-color);
+      font-weight: bold;
     }
 
     .table-of-contents a:hover::before {
       left: 0;
     }
 
+    .table-of-contents a:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
     .table-of-contents a:hover {
       color: var(--primary-color);
-      transform: translateX(4px);
-      background: rgba(99, 102, 241, 0.05);
+      transform: translateX(8px);
+      background: rgba(99, 102, 241, 0.08);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-of-contents a.active {
+      color: var(--primary-color);
+      background: rgba(99, 102, 241, 0.12);
+      transform: translateX(6px);
+      box-shadow: var(--shadow-md);
+      font-weight: 600;
+    }
+
+    .table-of-contents a.active::before {
+      left: 0;
+      opacity: 0.15;
+    }
+
+    .table-of-contents a.active::after {
+      opacity: 1;
+      transform: translateX(0);
+      color: var(--primary-color);
+    }
+
+    .table-of-contents a.active .toc-icon {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.4));
+    }
+
+    .toc-icon {
+      font-size: 1.1rem;
+      min-width: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .toc-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      border-radius: 0 0 24px 24px;
+      width: 0%;
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
     }
 
     .methodology-grid {
@@ -675,8 +811,23 @@
         font-size: 0.8rem;
       }
       
-      .table-of-contents ul {
+      .table-of-contents {
+        padding: 24px;
+        position: relative;
+      }
+      
+      .toc-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      
+      .toc-section {
+        padding: 16px;
+      }
+      
+      .table-of-contents h3 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
       }
       
       .floating-nav {
@@ -709,18 +860,42 @@
     <!-- Table of Contents -->
     <div class="table-of-contents">
       <h3>📋 Table of Contents</h3>
-      <ul>
-        <li><a href="#abstract">Abstract</a></li>
-        <li><a href="#introduction">Introduction</a></li>
-        <li><a href="#benchmark">NiM-Benchmark</a></li>
-        <li><a href="#methodology">Spot-IT Methodology</a></li>
-        <li><a href="#examples">Examples</a></li>
-        <li><a href="#results">Results & Analysis</a></li>
-        <li><a href="#comparison">Comparison with Baselines</a></li>
-        <li><a href="#implementation">Implementation Details</a></li>
-        <li><a href="#authors">Authors</a></li>
-        <li><a href="#citation">Citation</a></li>
-      </ul>
+      <div class="toc-grid">
+        <div class="toc-section">
+          <div class="toc-section-title">📖 Overview</div>
+          <ul>
+            <li><a href="#abstract"><span class="toc-icon">📄</span>Abstract</a></li>
+            <li><a href="#introduction"><span class="toc-icon">🎯</span>Introduction</a></li>
+          </ul>
+        </div>
+        
+        <div class="toc-section">
+          <div class="toc-section-title">🔬 Research</div>
+          <ul>
+            <li><a href="#benchmark"><span class="toc-icon">📊</span>NiM-Benchmark</a></li>
+            <li><a href="#methodology"><span class="toc-icon">🎯</span>Spot-IT Methodology</a></li>
+            <li><a href="#examples"><span class="toc-icon">🖼️</span>Examples</a></li>
+          </ul>
+        </div>
+        
+        <div class="toc-section">
+          <div class="toc-section-title">📈 Results</div>
+          <ul>
+            <li><a href="#results"><span class="toc-icon">📈</span>Results & Analysis</a></li>
+            <li><a href="#comparison"><span class="toc-icon">⚖️</span>Comparison with Baselines</a></li>
+          </ul>
+        </div>
+        
+        <div class="toc-section">
+          <div class="toc-section-title">💻 Implementation</div>
+          <ul>
+            <li><a href="#implementation"><span class="toc-icon">⚙️</span>Implementation Details</a></li>
+            <li><a href="#authors"><span class="toc-icon">👥</span>Authors</a></li>
+            <li><a href="#citation"><span class="toc-icon">📄</span>Citation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="toc-progress"></div>
     </div>
 
     <!-- Abstract -->
@@ -1196,6 +1371,42 @@ print(f"Attention regions: {result.attention_map}")
       });
     }, observerOptions);
 
+    // Table of Contents progress tracking
+    function updateTocProgress() {
+      const sections = document.querySelectorAll('section[id]');
+      const tocProgress = document.querySelector('.toc-progress');
+      const tocLinks = document.querySelectorAll('.table-of-contents a[href^="#"]');
+      
+      let currentSection = '';
+      const scrollPosition = window.scrollY + 100;
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          currentSection = section.id;
+        }
+      });
+      
+      // Update active link
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Update progress bar
+      if (sections.length > 0) {
+        const currentIndex = Array.from(sections).findIndex(section => section.id === currentSection);
+        const progress = currentIndex >= 0 ? ((currentIndex + 1) / sections.length) * 100 : 0;
+        if (tocProgress) {
+          tocProgress.style.width = `${progress}%`;
+        }
+      }
+    }
+
     // Observe all sections for scroll animations
     document.addEventListener('DOMContentLoaded', () => {
       const sections = document.querySelectorAll('.section');
@@ -1205,6 +1416,10 @@ print(f"Attention regions: {result.attention_map}")
         section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(section);
       });
+      
+      // Initialize ToC progress tracking
+      window.addEventListener('scroll', updateTocProgress);
+      updateTocProgress(); // Initial call
 
       // Add hover effects to method cards
       const methodCards = document.querySelectorAll('.method-card');
