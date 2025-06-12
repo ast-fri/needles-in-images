@@ -1101,51 +1101,81 @@ for scale in scales:
         Our comprehensive evaluation reveals significant improvements when using Spot-IT across all document types and task categories:
       </p>
 
-      <div class="comparison-chart">
-        <h3>Performance Comparison</h3>
+          <div class="comparison-chart">
+        <h3>Performance Comparison - Exact Match (EM) Scores</h3>
         <table class="results-table">
           <thead>
             <tr>
               <th>Method</th>
-              <th>Restaurant Menus</th>
+              <th>Menus</th>
+              <th>Academic Papers</th>
+              <th>Magazines</th>
               <th>Newspapers</th>
-              <th>Lecture Slides</th>
-              <th>Website Screenshots</th>
+              <th>Websites</th>
+              <th>Lectures</th>
               <th>Overall</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>GPT-4V (Baseline)</strong></td>
-              <td>67.3%</td>
-              <td>71.2%</td>
-              <td>74.8%</td>
-              <td>69.5%</td>
-              <td>70.7%</td>
+              <td><strong>GPT-4o</strong></td>
+              <td>33%</td>
+              <td>41%</td>
+              <td>55%</td>
+              <td>28%</td>
+              <td>42%</td>
+              <td>26%</td>
+              <td>38%</td>
             </tr>
             <tr>
-              <td><strong>Claude-3 (Baseline)</strong></td>
-              <td>65.8%</td>
-              <td>69.4%</td>
-              <td>72.1%</td>
-              <td>67.9%</td>
-              <td>68.8%</td>
+              <td><strong>GPT-4o-mini</strong></td>
+              <td>25%</td>
+              <td>23%</td>
+              <td>47%</td>
+              <td>24%</td>
+              <td>34%</td>
+              <td>24%</td>
+              <td>29%</td>
             </tr>
             <tr>
-              <td><strong>Gemini Pro (Baseline)</strong></td>
-              <td>63.2%</td>
-              <td>66.7%</td>
-              <td>70.3%</td>
-              <td>65.1%</td>
-              <td>66.3%</td>
+              <td><strong>Gemini-1.5-Flash</strong></td>
+              <td>22%</td>
+              <td>17%</td>
+              <td>19%</td>
+              <td>14%</td>
+              <td>30%</td>
+              <td>34%</td>
+              <td>22%</td>
+            </tr>
+            <tr>
+              <td><strong>Qwen2-7B</strong></td>
+              <td>12%</td>
+              <td>11%</td>
+              <td>65%</td>
+              <td>6%</td>
+              <td>1%</td>
+              <td>11%</td>
+              <td>17%</td>
             </tr>
             <tr style="background-color: #e8f5e8;">
-              <td><strong>Spot-IT + GPT-4V</strong></td>
-              <td><strong>78.9%</strong></td>
-              <td><strong>82.1%</strong></td>
-              <td><strong>85.3%</strong></td>
-              <td><strong>80.7%</strong></td>
-              <td><strong>81.8%</strong></td>
+              <td><strong>GPT-4o + Ours</strong></td>
+              <td><strong>50%</strong></td>
+              <td><strong>66%</strong></td>
+              <td><strong>77%</strong></td>
+              <td><strong>44%</strong></td>
+              <td><strong>56%</strong></td>
+              <td><strong>37%</strong></td>
+              <td><strong>56%</strong></td>
+            </tr>
+            <tr style="background-color: #e8f5e8;">
+              <td><strong>Gemini-1.5-Flash + Ours</strong></td>
+              <td><strong>35%</strong></td>
+              <td><strong>23%</strong></td>
+              <td><strong>29%</strong></td>
+              <td><strong>16%</strong></td>
+              <td><strong>34%</strong></td>
+              <td><strong>41%</strong></td>
+              <td><strong>27%</strong></td>
             </tr>
           </tbody>
         </table>
