@@ -1184,8 +1184,8 @@ for scale in scales:
       <div class="highlight-box">
         <h3>🎯 Key Findings</h3>
         <ul>
-          <li><strong>+11.1% overall improvement:</strong> Spot-IT consistently outperforms baseline methods across all document types</li>
-          <li><strong>Greatest gains in complex layouts:</strong> Restaurant menus show the highest improvement (+11.6%)</li>
+          <li><strong>+15.5% overall improvement:</strong> Spot-IT consistently outperforms baseline methods across all document types</li>
+          <li><strong>Greatest gains in complex layouts:</strong> Spot-IT improvement on NiM-Benchmark (+21.05%)</li>
           <li><strong>Robust across models:</strong> Benefits observed with different base MLLMs</li>
           <li><strong>Scalable approach:</strong> Performance improvements maintain with larger document sizes</li>
         </ul>
@@ -1240,17 +1240,14 @@ for scale in scales:
       </p>
 
       <div class="code-block">
-# Installation
+    <pre># Installation
 pip install spot-it-mllm
-
 # Basic usage
 from spot_it import SpotIT
 from your_mllm import YourMLLM
-
 # Initialize
 model = YourMLLM()
 spot_it = SpotIT(model)
-
 # Process document with query
 result = spot_it.process(
     image_path="document.jpg",
@@ -1258,11 +1255,10 @@ result = spot_it.process(
     attention_strategy="gaussian",
     patch_size=224
 )
-
 print(f"Answer: {result.answer}")
 print(f"Confidence: {result.confidence}")
-print(f"Attention regions: {result.attention_map}")
-      </div>
+print(f"Attention regions: {result.attention_map}")</pre>
+</div>
 
       <h3>🔧 Configuration Options</h3>
       <ul>
@@ -1290,7 +1286,7 @@ print(f"Attention regions: {result.attention_map}")
           <div style="width: 80px; height: 80px; background: #ddd; border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; color: #666;">👤</div>
           <h4>Research Team</h4>
           <p>AST-FRI</p>
-          <p>Computer Vision & AI</p>
+          <p>Agentic Science & Technology Team</p>
         </div>
         
         <div class="author-card">
@@ -1313,11 +1309,11 @@ print(f"Attention regions: {result.attention_map}")
       <p>If you find our work helpful in your research, please consider citing our paper:</p>
 
       <div class="code-block">
-@article{needles-in-images-2024,
+@article{needles-in-images-2025,
   title={Finding Needles in Images: Can Multi-modal LLMs Locate Fine Details?},
-  author={[Authors to be updated]},
-  journal={arXiv preprint},
-  year={2024},
+  author={[Parth, Ankush, Prasad, Pulkit, Chaitanya]},
+  journal={ACL 2025 Proceedings},
+  year={2025},
   url={https://github.com/ast-fri/needles-in-images}
 }
       </div>
@@ -1336,7 +1332,7 @@ print(f"Attention regions: {result.attention_map}")
       <p>
         <a href="https://github.com/ast-fri/needles-in-images" style="color: #666; text-decoration: none;">GitHub</a> | 
         <a href="https://huggingface.co/datasets/AST-FRI/needles-in-images" style="color: #666; text-decoration: none;">Hugging Face</a> | 
-        <a href="#" style="color: #666; text-decoration: none;">arXiv (Coming Soon)</a>
+        <a href="#" style="color: #666; text-decoration: none;">ACL 2025 (Coming Soon)</a>
       </p>
     </div>
   </div>
