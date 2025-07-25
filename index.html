@@ -4,209 +4,276 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Finding Needles in Images: Can Multi-modal LLMs Locate Fine Details?</title>
-  <meta name="description" content="A professional overview of the NiM-Benchmark and Spot-IT method for evaluating Multi-modal LLMs on precise document understanding tasks.">
-  <meta name="keywords" content="MLLM, computer vision, document VQA, NiM-Benchmark, Spot-IT, fine-grained, AI research">
+  <meta name="description" content="A showcase of the NiM-Benchmark and Spot-IT framework for assessing MLLMs on fine-grained document understanding tasks.">
+  <meta name="keywords" content="MLLM, computer vision, document VQA, NiM-Benchmark, Spot-IT, AI research, LLMs, DocVQA">
   <meta name="author" content="Parth Thakkar, Ankush Agarwal, Prasad Kasu, Pulkit Bansal, Chaitanya Devaguptapu">
   <style>
+    :root {
+      --primary-bg: #e9ecf3;
+      --container-bg: #f8fafd;
+      --fancy-shadow: 0 12px 36px 0 rgba(27,50,104,0.09);
+      --section-shadow: 0 4px 24px 0 rgba(45,78,122,0.07), 0 1.5px 5px 0 #d8dde7;
+      --header-main: #21263b;
+      --accent: linear-gradient(90deg, #6289ff 0%, #7a6ff0 100%);
+      --border: #dbe3ec;
+      --badge-bg: #20244c;
+      --author-bg: #f0f1f8;
+      --author-highlight: #7a6ff0;
+      --gradient-light: linear-gradient(120deg, #fafbfc 40%, #eaf1fb 100%);
+      --subtle: #7a90b8;
+      --section-bg: #f2f4f9;
+      --blue-table: #edf2fe;
+    }
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #ececec;
-      color: #232323;
-      line-height: 1.7;
+      background: var(--primary-bg);
+      font-family: 'Segoe UI', 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
+      color: #2d3651;
+      line-height: 1.8;
     }
     .container {
-      max-width: 1050px;
-      margin: 0 auto;
-      padding: 50px 25px;
-      background: #f8f9fb;
-      border-radius: 18px;
-      box-shadow: 0 8px 32px rgba(51,55,58,0.07);
-      border: 1px solid #e1e4ea;
+      max-width: 1100px;
+      margin: 42px auto;
+      padding: 37px 24px 44px 24px;
+      background: var(--container-bg);
+      border-radius: 22px;
+      box-shadow: var(--fancy-shadow);
     }
     .header {
       text-align: center;
-      margin-bottom: 36px;
-      padding-top: 13px;
+      margin-bottom: 28px;
+      padding-top: 6px;
     }
     .header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #2c364b;
-      letter-spacing: -1px;
-      margin-bottom: 7px;
+      font-size: 2.85rem;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      margin: 2px 0 7px;
+      color: var(--header-main);
+      line-height: 1.1;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .header h2 {
-      font-size: 1.07rem;
-      font-weight: 400;
-      color: #556177;
-      margin-bottom: 23px;
+      font-size: 1.13rem;
+      font-weight: 500;
+      color: #314a87;
+      margin-bottom: 22px;
+      letter-spacing: 0.03em;
+      opacity: 0.84;
     }
-    .author-list {
-      margin: 15px 0 8px 0;
+    .author-list-formal {
+      margin: 9px 0 6px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2px;
-    }
-    .author-paper {
-      font-size: 1.04rem;
-      color: #1a233b;
-      margin-bottom: 2px;
-      font-family: 'Times New Roman', Times, serif;
+      gap: 0;
+      font-family: 'Times New Roman', serif;
+      color: #1d2b41;
       font-weight: 400;
-      letter-spacing: 0.02em;
+      font-size: 1.09rem;
     }
-    .affiliation-paper {
+    .author-names {
+      background: var(--author-bg);
+      padding: 9px 19px;
+      border-radius: 7.5px;
+      box-shadow: 0 2.3px 9px #e2e6f3;
+      font-size: 1.12rem;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .author-names .sup {
+      font-size: 0.93em;
+      color: var(--author-highlight);
+      vertical-align: super;
+    }
+    .affiliations {
+      font-size: 1.02rem;
       color: #5e6375;
-      font-size: 0.99rem;
-      font-family: 'Times New Roman', Times, serif;
-      margin-bottom: 0;
+      background: none;
+      margin-bottom: 1.5px;
+      text-align: center;
     }
     .author-footnote {
-      font-size: 0.92rem;
-      color: #60708e;
-      text-align:center;
-      font-family: 'Times New Roman', Times, serif;
-      margin: 2px 0 12px 0;
-      padding: 0;
+      font-size: 0.94rem;
+      color: #737cab;
+      margin: 0 0 13px;
+      text-align: center;
     }
     .links-section {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin: 18px 0 38px 0;
+      gap: 16px;
+      margin: 12px 0 34px 0;
       flex-wrap: wrap;
     }
     .link-button {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: #3d4250;
+      gap: 7px;
+      background: var(--badge-bg);
       color: #fff;
       text-decoration: none;
-      padding: 10px 23px;
-      border-radius: 28px;
-      font-size: 0.96rem;
-      font-weight: 500;
-      transition: background 0.19s;
-      box-shadow: 0 1.5px 5px rgba(60,85,130,0.08);
+      padding: 10px 22px;
+      border-radius: 26px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      transition: background 0.17s;
+      box-shadow: 0 2px 8px rgba(34,57,123,0.12);
+      background-image: linear-gradient(105deg, #4251a3 0%, #6253e6 100%);
     }
-    .link-button.github { background: #24292e; }
+    .link-button.github { background-image: linear-gradient(90deg, #24292e 0%, #3c444a 100%); }
     .link-button.huggingface { background: #ff9900; }
     .link-button.arxiv { background: #b91c1c; }
     .link-button:hover { background: #222a33; }
+    .table-of-contents {
+      background: var(--gradient-light);
+      border: 1.6px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 18px 20px 24px;
+      margin-bottom: 38px;
+      box-shadow: 0 1.2px 7px #e0e8f7;
+    }
+    .table-of-contents h3 {
+      margin-top: 0;
+      font-size: 1.14rem;
+      color: #4e58a2;
+      text-transform: uppercase;
+      letter-spacing: 0.055em;
+    }
+    .table-of-contents ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .table-of-contents li {
+      margin: 7.5px 0;
+      font-size: 1.03rem;
+    }
+    .table-of-contents a {
+      color: #2877c3;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1.2px dotted #4b67e0;
+    }
+    .table-of-contents a:hover {
+      text-decoration: underline;
+      color: #362cff;
+    }
     .section {
-      background: #f4f6f7;
-      border: 1px solid #e3e8ee;
-      border-radius: 10px;
-      padding: 33px 29px 24px 29px;
-      margin-bottom: 40px;
-      box-shadow: 0 2px 10px rgba(35,51,75,0.04);
+      background: var(--section-bg);
+      border: 1.2px solid #e3e8ee;
+      border-radius: 13px;
+      padding: 35px 31px 24px 31px;
+      margin-bottom: 44px;
+      box-shadow: var(--section-shadow);
     }
     .section-title {
-      font-size: 1.38rem;
-      font-weight: 600;
-      margin-bottom: 16px;
-      border-bottom: 1px solid #d3d5da;
+      font-size: 1.44rem;
+      font-weight: 800;
+      background: var(--accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      border-bottom: 1.8px solid #d7d8e7;
       display: block;
-      color: #1d233d;
-      padding-bottom: 8px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-bottom: 11px;
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+      letter-spacing: 0.01em;
+    }
+    p, li, ul {
+      font-size: 1.07rem;
+      color: #243657;
+      margin-bottom: 7px;
     }
     .abstract {
-      font-size: 1.06rem;
-      color: #222;
+      font-size: 1.11rem;
+      color: #212237;
       text-align:justify;
+      background: #f9fafb;
+      border-radius: 7px;
+      padding: 12px 13px;
+      margin-bottom: 0;
+      box-shadow: 0 1.6px 9px #eef1f9;
+    }
+    .highlight-box {
+      background: linear-gradient(115deg, #e6eeff 40%, #e2f6fb 100%);
+      color: #193158;
+      border-radius: 12px;
+      padding: 18px 22px 15px 18px;
+      border-left: 6px solid #7a6ff0;
+      margin: 25px 2px 23px 2px;
+      box-shadow: 0 1px 5px #e3e6f4;
+    }
+    .highlight-box h3 {
+      margin: 0 0 8px 0;
+      color: #2a30a1;
+      font-size: 1.07rem;
+      font-weight: 700;
     }
     .image-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 23px;
+      gap: 27px;
       justify-content: center;
       align-items: flex-end;
       margin-bottom: 0;
     }
     .image-row img {
-      border-radius: 8px;
-      box-shadow: 0 2px 14px rgba(0,0,0,0.09);
+      border-radius: 12px;
+      box-shadow: 0 4px 27px rgba(0,38,90,0.10);
       max-width: 340px;
-      background: #f6faff;
+      background: #f2f6fd;
+      border: 1.3px solid #dde6f4;
+      transition: transform 0.13s;
+    }
+    .image-row img:hover {
+      transform: translateY(-5px) scale(1.014);
+      box-shadow: 0 8px 38px #c7d2fe;
     }
     .image-label {
       text-align: center;
-      color: #627098;
-      font-size: 0.91rem;
-      margin: 7px 0 0 0;
-    }
-    .highlight-box {
-      background: linear-gradient(135deg, #94a3b8 0%, #abdbe3 100%);
-      color: #183158;
-      border-radius: 10px;
-      padding: 18px 21px 15px 21px;
-      margin: 25px 4px 26px 4px;
-    }
-    .highlight-box h3 {
-      margin: 0 0 8px 0;
-      color: #193960;
-      font-size: 1.09rem;
+      color: #7176a8;
+      font-size: 1.01rem;
+      margin: 10px 0 0 0;
+      letter-spacing: 0.008em;
     }
     .results-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 12px 0 8px 0;
-      background: #f5f7fa;
-      font-size: 0.99rem;
+      margin: 17px 0 10px 0;
+      background: var(--blue-table);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 1.05rem;
     }
     .results-table th, .results-table td {
-      border: 1px solid #e0e5ed;
-      padding: 10px 11px;
+      border: 1.2px solid #dde4f7;
+      padding: 11px 19px;
+      text-align: left;
     }
     .results-table th {
-      background: #eaf0f7;
-      font-weight: 650;
-      color: #28375b;
+      background: #e3eafc;
+      font-weight: 750;
+      color: #3753b5;
     }
-    .results-table tr:nth-child(even) { background: #f6f8fb; }
-    .table-of-contents {
-      background: #e5e7eb;
-      border: 1px solid #dadee8;
-      border-radius: 9px;
-      padding: 18px 17px 20px 18px;
-      margin-bottom: 32px;
-    }
-    .table-of-contents h3 {
-      margin-top: 0;
-      font-size: 1.09rem;
-      color: #374151;
-    }
-    .table-of-contents ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    .table-of-contents li {
-      margin: 7.5px 0;
-    }
-    .table-of-contents a {
-      color: #2877c3;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .table-of-contents a:hover {
-      text-decoration: underline;
-    }
+    .results-table tr:nth-child(even) { background: #f6f8fc; }
     .footer {
       text-align: center;
-      font-size: 0.93rem;
-      color: #808ca0;
-      margin-top: 40px;
-      padding: 17px 0 10px 0;
+      font-size: 1rem;
+      color: #a9abc5;
+      margin-top: 45px;
+      padding: 23px 0 8px 0;
+      background: transparent;
     }
-    @media (max-width: 780px) {
-      .container { padding: 11px 2px; }
-      .section { padding: 18px 5px 13px 8px; }
-      .header h1 { font-size: 1.45rem;}
-      .image-row { flex-direction: column; }
+    @media (max-width: 850px) {
+      .container { padding: 8px 3px 17px 7px; }
+      .section { padding: 16px 6px 13px 8px; }
+      .table-of-contents { padding: 17px 7px 16px 15px; }
+      .header h1 { font-size: 1.52rem;}
+      .results-table th, .results-table td { padding: 8px 12px; }
+      .image-row { flex-direction: column; gap: 21px;}
     }
   </style>
 </head>
@@ -214,22 +281,22 @@
   <div class="container">
     <header class="header">
       <h1>Finding Needles in Images: Can Multi-modal LLMs Locate Fine Details?</h1>
-      <h2>A professional overview of the NiM-Benchmark and Spot-IT method for fine-grained document understanding</h2>
-      <div class="author-list">
-        <div class="author-paper">
-          Parth Thakkar<sup>1,&#42;</sup>,
-          Ankush Agarwal<sup>1,&#42;</sup>,
-          Prasad Kasu<sup>1</sup>,
-          Pulkit Bansal<sup>1,2,†</sup>,
-          Chaitanya Devaguptapu<sup>1</sup>
+      <h2>A showcase of the NiM-Benchmark and Spot-IT for fine-grained document AI</h2>
+      <div class="author-list-formal">
+        <div class="author-names">
+          Parth Thakkar<span class="sup">1,&#42;</span>,
+          Ankush Agarwal<span class="sup">1,&#42;</span>,
+          Prasad Kasu<span class="sup">1</span>,
+          Pulkit Bansal<span class="sup">1,2,†</span>,
+          Chaitanya Devaguptapu<span class="sup">1</span>
         </div>
-        <div class="affiliation-paper">
-          <sup>1</sup>Fujitsu Research India &nbsp;
-          <sup>2</sup>Indian Institute of Technology Patna
+        <div class="affiliations">
+          <span class="sup">1</span>Fujitsu Research India &nbsp;&nbsp;
+          <span class="sup">2</span>Indian Institute of Technology Patna
         </div>
         <div class="author-footnote">
-          <sup>&#42;</sup>Equal contribution &nbsp;&nbsp;
-          <sup>†</sup>Work done at Fujitsu Research India
+          <span class="sup">&#42;</span>Equal contribution &nbsp;&nbsp;
+          <span class="sup">†</span>Work partially done at Fujitsu Research India
         </div>
       </div>
       <div class="links-section">
@@ -257,36 +324,34 @@
     <section class="section" id="abstract">
       <span class="section-title">Abstract</span>
       <p class="abstract">
-        Multi-modal Large Language Models (MLLMs) have revolutionized document understanding, but their limitations in identifying and reasoning about fine-grained details within complex layouts are not well understood. The <b>NiM-Benchmark</b> introduces a new challenge: evaluating visual question answering (VQA) on fine, localized details — from menu pricing to technical details in academic papers — that might occupy less than 5% of a page. We further present <b>Spot-IT</b>, an intuitive approach that empowers MLLMs to better locate and extract such "needles in images" by combining intelligent patch selection with Gaussian-based visual attention, simulating how humans naturally zoom and focus. Experiments show substantial gains in accuracy over common baselines, especially in high-complexity, real-world scenarios.
+        Multi-modal Large Language Models (MLLMs) can read entire documents, but can they find hidden, precise details buried in complex layouts? <strong>NiM-Benchmark</strong> introduces tough new VQA challenges: fine-grained, localized visual reasoning, like spotting menu prices or a tiny table insight on a research paper. <strong>Spot-IT</strong> delivers an intuitive approach that helps MLLMs "zoom in" — intelligently picking image patches and applying a dynamic Gaussian focus guided by the user's query. Large-scale evaluation sets new accuracy records and reveals just how far these models still lag behind human readers, especially for tiny, context-heavy details.
       </p>
     </section>
 
     <section class="section" id="introduction">
       <span class="section-title">Introduction</span>
       <p>
-        The rapid progress of Multi-modal LLMs has enabled substantial breakthroughs in machine comprehension of complex documents through tasks like Document Visual Question Answering (DocVQA). Yet, the real challenge arises when models must zoom in on small, contextually critical regions — for example, identifying a specific menu item's price or a single clause in a contract, requiring attention to just a sliver of the input. Most existing benchmarks are geared toward broad comprehension and miss this nuanced evaluation.
+        Vision-Language Models are bridging the gap between seeing and understanding, but their real-world utility hinges on precision: can they find <em>just</em> the answer—no more, no less—when it occupies only a sliver of a dense document? Most DocVQA benchmarks miss this, focusing on broad summaries or generic extraction, not the real-world pain-point of hidden, context-rich queries.
       </p>
       <div class="highlight-box">
-        <h3>Core problem:</h3>
-        Can MLLMs reliably find and reason about fine-grained, context-rich details — not just broad document summaries — within complex layouts?
+        <h3>Why does this matter?</h3>
+        Visual document QA fails if models can't locate tiny, vital details—just as users do when flipping desperately through legal contracts, academic papers, or digital receipts!
       </div>
     </section>
 
     <section class="section" id="nim-benchmark">
-      <span class="section-title">NiM-Benchmark: Fine-Grained DocVQA for the Real World</span>
+      <span class="section-title">NiM-Benchmark: Fine-Grained Challenges</span>
       <p>
-        <b>NiM-Benchmark</b> is designed to fill this gap. It comprises <b>2,970 images</b> and <b>1,180 question-answer</b> pairs spanning six realistic document domains:
+        <b>NiM-Benchmark</b> is crafted for precision stress-testing, with <b>2,970 images</b> and <b>1,180 question-answer</b> pairs, from everyday sources:
       </p>
       <ul>
-        <li>Restaurant menus</li>
-        <li>Academic papers</li>
-        <li>Magazines</li>
-        <li>Newspapers</li>
-        <li>Website screenshots</li>
-        <li>Lecture screenshots</li>
+        <li>Restaurant menus (prices, dish attributes)</li>
+        <li>Academic papers (tiny figure/table details, technical params)</li>
+        <li>Magazines, newspapers</li>
+        <li>Website & lecture screenshots</li>
       </ul>
       <p>
-        Each question tests the model's ability to extract extremely localized and context-sensitive information (fine-grained details defined as &lt;5% of page area). The dataset features a spectrum of reasoning: from inline fact extraction, boolean checks, and comparative questions to more complex multi-step logical inference (see Table 9 in the original paper).
+        Each question targets a region covering <5% of the visual area. Domain variety and question complexity is ensured (see paper Table 9).
       </p>
       <table class="results-table">
         <tr>
@@ -303,45 +368,45 @@
         </tr>
         <tr>
           <td>Magazines / Newspapers</td>
-          <td>Date, event, named entity mentions, box scores</td>
+          <td>Date, events, entities, scores</td>
         </tr>
         <tr>
           <td>Websites / Lectures</td>
-          <td>UI details, classroom content, navigation elements</td>
+          <td>UI details, content, nav elements</td>
         </tr>
       </table>
     </section>
 
     <section class="section" id="spot-it-method">
-      <span class="section-title">Spot-IT: Human-Inspired Fine-Grained Attention for MLLMs</span>
+      <span class="section-title">Spot-IT: Human-Like Visual Focus for MLLMs</span>
       <div style="display: flex; gap: 24px; flex-wrap: wrap; margin: 20px 0;">
-        <div style="flex: 1 1 300px; background: #edf0f3; border-radius: 8px; padding: 15px 17px; margin-bottom: 12px;">
-          <h4 style="margin-top:0;">1. Query-Guided Patch Identification</h4>
+        <div style="flex: 1 1 280px; background: #eef1fa; border-radius: 8px; padding: 15px 17px 6px 17px; margin-bottom: 9px; box-shadow: 0 1px 7px #e0ebfa;">
+          <h4 style="margin-top:0;font-size:1.11rem;margin-bottom:7px;">1. Query-Guided Patch Identification</h4>
           <ul>
-            <li>Image divided into grid patches (empirically n=6).</li>
-            <li>Vision-language model (SigLip) computes semantic similarity between question and each patch.</li>
-            <li>Top patch with highest similarity marked for focus.</li>
+            <li>Divide image into n × n patches (n=6),</li>
+            <li>Vision-language model (SigLip) matches patches with the query (cosine similarity),</li>
+            <li>Pick patch with highest similarity for focus,</li>
           </ul>
         </div>
-        <div style="flex: 1 1 300px; background: #edf0f3; border-radius: 8px; padding: 15px 17px; margin-bottom: 12px;">
-          <h4 style="margin-top:0;">2. Adaptive Gaussian Attention</h4>
+        <div style="flex: 1 1 280px; background: #eef1fa; border-radius: 8px; padding: 15px 17px 6px 17px; margin-bottom: 9px; box-shadow: 0 1px 7px #e0ebfa;">
+          <h4 style="margin-top:0;font-size:1.11rem;margin-bottom:7px;">2. Dynamic Gaussian Attention</h4>
           <ul>
-            <li>Gaussian mask centered on the identified patch; width based on confidence.</li>
-            <li>High-confidence yields sharp focus, low-confidence broadens view.</li>
-            <li>Attended image with mask given to MLLM for answer.</li>
+            <li>Draw a Gaussian mask centered at patch, width based on confidence,</li>
+            <li>Sharper focus for strong matches, softer for weak ones,</li>
+            <li>Blend region into original image & send to MLLM,</li>
           </ul>
         </div>
-        <div style="flex: 1 1 300px; background: #edf0f3; border-radius: 8px; padding: 15px 17px; margin-bottom: 12px;">
-          <h4 style="margin-top:0;">3. Answer Generation</h4>
+        <div style="flex: 1 1 280px; background: #eef1fa; border-radius: 8px; padding: 15px 17px 6px 17px; margin-bottom: 9px; box-shadow: 0 1px 7px #e0ebfa;">
+          <h4 style="margin-top:0;font-size:1.11rem;margin-bottom:7px;">3. Answer Generation</h4>
           <ul>
-            <li>Standard DocVQA prompt, emphasizing attended region.</li>
-            <li>No extra training required; zero-shot augmentation.</li>
+            <li>Standard DocVQA prompt (with focus area),</li>
+            <li>No need to retrain model.</li>
           </ul>
         </div>
       </div>
       <div class="highlight-box">
-        <h3>Why is this different?</h3>
-        Spot-IT targets the dual challenge of global context retention with local feature focus — simulating how a human would visually scan and zoom to find "the needle in a haystack" within a document.
+        <h3>What makes this fancy?</h3>
+        Spot-IT lets models zoom in like a human—keeping the page in view but staring at just the vital spot.
       </div>
     </section>
 
@@ -350,11 +415,11 @@
       <div class="image-row">
         <div>
           <img src="Sample_imgs/Restaurant.png" alt="NiM Spot-IT: Restaurant Menu">
-          <div class="image-label">Restaurant menu — answer region precisely localized using Spot-IT</div>
+          <div class="image-label">Restaurant menu — answer region precisely found using Spot-IT</div>
         </div>
         <div>
           <img src="Sample_imgs/Lecture SS.png" alt="NiM Spot-IT: Lecture Screenshot">
-          <div class="image-label">Lecture screenshot — fine-grained detail extraction</div>
+          <div class="image-label">Lecture screenshot — fine-grained extraction</div>
         </div>
         <div>
           <img src="Sample_imgs/Website_SS.png" alt="NiM Spot-IT: Website Screenshot">
@@ -366,13 +431,13 @@
     <section class="section" id="results">
       <span class="section-title">Results & Analysis</span>
       <p>
-        Spot-IT was evaluated against both open-source and leading commercial MLLMs, across multiple benchmarks. Key findings:
+        Spot-IT was tested on open-source and leading commercial MLLMs. Highlights:
       </p>
       <ul>
-        <li><b>Spot-IT significantly outperforms</b> basic MLLM and OCR-based DocVQA methods for fine-grained detail tasks, with improvements ranging from 15% to over 20% in key metrics such as EM (Exact Match) and F1 on NiM-Benchmark and ArxiVQA.</li>
-        <li>The challenge remains highly difficult: even state-of-the-art MLLMs like GPT-4o <b>achieve only 38% EM</b>, vs. humans at 63% EM, underscoring the complexity of these visual reasoning tasks.</li>
-        <li>Error analysis: Most failures are due to incomplete or hallucinated evidence, or misperceptions in fine details.</li>
-        <li>Spot-IT incurs minimal latency penalty (~4 seconds) for substantial accuracy improvement.</li>
+        <li><b>15-21% accuracy improvement</b> on NiM-Benchmark and ArxiVQA, over basic MLLM/OCR DocVQA pipelines.</li>
+        <li>Even GPT-4o achieves <b>only 38% EM</b> (humans get 63%), showing how tough fine-grained questions are.</li>
+        <li>Most failures: model hallucination, missing tiny evidence, or reasoning breakdown.</li>
+        <li>Latency only +4s—acceptable for detailed search.</li>
       </ul>
       <table class="results-table">
         <tr>
@@ -399,43 +464,43 @@
         </tr>
       </table>
       <div class="highlight-box">
-        <b>Conclusion:</b> Spot-IT sets a new state-of-the-art for fine-grained DocVQA, but there is still a substantial gap between machine and human detail comprehension, highlighting rich opportunities for future work.
+        <b>Bottom line:</b> Spot-IT is a step ahead for fine-grained DocVQA, but there's lots of room to match humans!
       </div>
     </section>
 
     <section class="section" id="implementation">
       <span class="section-title">Implementation Details</span>
       <ul>
-        <li>All code and dataset are available via <b>GitHub</b> and <b>Hugging Face</b> (see links above).</li>
-        <li>Spot-IT is a zero-shot, plug-in post-processing step: no retraining required.</li>
-        <li>Experiments used NVIDIA A30 GPUs and major MLLM APIs (GPT-4o, Gemini, Llama3, Qwen2, etc.).</li>
+        <li>Dataset and code: <b>GitHub</b> & <b>Hugging Face</b> (see top links).</li>
+        <li>Spot-IT is a plug-in step—no need to retrain! Works across modern MLLMs.</li>
+        <li>Experiments done on NVIDIA A30 GPUs and with all major API-access models.</li>
       </ul>
     </section>
 
     <section class="section" id="authors">
       <span class="section-title">Authors & Affiliations</span>
-      <div class="author-list">
-        <div class="author-paper">
-          Parth Thakkar<sup>1,&#42;</sup>,
-          Ankush Agarwal<sup>1,&#42;</sup>,
-          Prasad Kasu<sup>1</sup>,
-          Pulkit Bansal<sup>1,2,†</sup>,
-          Chaitanya Devaguptapu<sup>1</sup>
+      <div class="author-list-formal">
+        <div class="author-names">
+          Parth Thakkar<span class="sup">1,&#42;</span>,
+          Ankush Agarwal<span class="sup">1,&#42;</span>,
+          Prasad Kasu<span class="sup">1</span>,
+          Pulkit Bansal<span class="sup">1,2,†</span>,
+          Chaitanya Devaguptapu<span class="sup">1</span>
         </div>
-        <div class="affiliation-paper">
-          <sup>1</sup>Fujitsu Research India &nbsp;
-          <sup>2</sup>Indian Institute of Technology Patna
+        <div class="affiliations">
+          <span class="sup">1</span>Fujitsu Research India &nbsp;&nbsp;
+          <span class="sup">2</span>Indian Institute of Technology Patna
         </div>
         <div class="author-footnote">
-          <sup>&#42;</sup>Equal contribution &nbsp;&nbsp;
-          <sup>†</sup>Work done at Fujitsu Research India
+          <span class="sup">&#42;</span>Equal contribution &nbsp;&nbsp;
+          <span class="sup">†</span>Work partially at Fujitsu Research India
         </div>
       </div>
     </section>
 
     <section class="section" id="citation">
       <span class="section-title">How to Cite</span>
-<pre style="background:#e8eaee; border:1px solid #d8dee9;border-radius:7px;padding:12px 7px;font-size:.97rem;overflow-x:auto; color:#232735;">
+<pre style="background:#e5e9f2; border:1px solid #cfd9ed;border-radius:9px;padding:11px 8px;font-size:1.04rem;overflow-x:auto; color:#232735;">
 @inproceedings{thakkar2024findingneedles,
   title = {Finding Needles in Images: Can Multimodal LLMs Locate Fine Details?},
   author = {Parth Thakkar and Ankush Agarwal and Prasad Kasu and Pulkit Bansal and Chaitanya Devaguptapu},
