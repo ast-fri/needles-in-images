@@ -212,32 +212,59 @@
       font-size: 1.07rem;
       font-weight: 700;
     }
-    .image-row {
+    .example-showcase {
       display: flex;
-      flex-wrap: wrap;
-      gap: 27px;
-      justify-content: center;
-      align-items: flex-end;
-      margin-bottom: 0;
+      flex-direction: column;
+      gap: 40px;
+      margin: 25px 0;
     }
-    .image-row img {
+    .example-item {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+      background: linear-gradient(135deg, #f8fafb 0%, #f1f5f9 100%);
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 6px 24px rgba(45,78,122,0.08);
+      border: 1px solid #e5eaf2;
+    }
+    .example-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    .example-item img {
+      flex: 1;
+      max-width: 500px;
+      min-width: 300px;
       border-radius: 12px;
-      box-shadow: 0 4px 27px rgba(0,38,90,0.10);
-      max-width: 340px;
-      background: #f2f6fd;
-      border: 1.3px solid #dde6f4;
-      transition: transform 0.13s;
+      box-shadow: 0 8px 32px rgba(0,38,90,0.12);
+      background: #fff;
+      border: 2px solid #dde6f4;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .image-row img:hover {
-      transform: translateY(-5px) scale(1.014);
-      box-shadow: 0 8px 38px #c7d2fe;
+    .example-item img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 48px rgba(0,38,90,0.18);
     }
-    .image-label {
-      text-align: center;
-      color: #7176a8;
-      font-size: 1.01rem;
-      margin: 10px 0 0 0;
-      letter-spacing: 0.008em;
+    .example-description {
+      flex: 1;
+      min-width: 280px;
+      padding: 10px 15px;
+    }
+    .example-description h4 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #2d4a87;
+      margin: 0 0 15px 0;
+      background: linear-gradient(90deg, #6289ff 0%, #7a6ff0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .example-description p {
+      font-size: 1.08rem;
+      color: #3a4663;
+      line-height: 1.7;
+      margin: 0;
+      text-align: justify;
     }
     .results-table {
       width: 100%;
@@ -273,7 +300,19 @@
       .table-of-contents { padding: 17px 7px 16px 15px; }
       .header h1 { font-size: 1.52rem;}
       .results-table th, .results-table td { padding: 8px 12px; }
-      .image-row { flex-direction: column; gap: 21px;}
+      .example-item {
+        flex-direction: column !important;
+        gap: 20px;
+        padding: 20px 15px;
+      }
+      .example-item img {
+        max-width: 100%;
+        min-width: unset;
+      }
+      .example-description {
+        min-width: unset;
+        padding: 5px 0;
+      }
     }
   </style>
 </head>
@@ -411,18 +450,29 @@
 
     <section class="section" id="examples">
       <span class="section-title">Qualitative Examples</span>
-      <div class="image-row">
-        <div>
+      <div class="example-showcase">
+        <div class="example-item">
           <img src="Sample_imgs/Restaurant.png" alt="NiM Spot-IT: Restaurant Menu">
-          <div class="image-label">Restaurant menu — answer region precisely found using Spot-IT</div>
+          <div class="example-description">
+            <h4>Restaurant Menu Analysis</h4>
+            <p>Spot-IT successfully identifies and focuses on specific menu items and prices within complex restaurant menu layouts. The system can precisely locate fine details like individual dish prices, ingredients, and dietary information that occupy small regions of the overall document.</p>
+          </div>
         </div>
-        <div>
+        
+        <div class="example-item">
           <img src="Sample_imgs/Lecture SS.png" alt="NiM Spot-IT: Lecture Screenshot">
-          <div class="image-label">Lecture screenshot — fine-grained extraction</div>
+          <div class="example-description">
+            <h4>Lecture Screenshot Extraction</h4>
+            <p>Academic content presents unique challenges with dense information layouts. Spot-IT demonstrates its ability to extract fine-grained details from lecture slides, focusing on specific data points, formulas, or textual elements that would be difficult to identify without targeted attention mechanisms.</p>
+          </div>
         </div>
-        <div>
+        
+        <div class="example-item">
           <img src="Sample_imgs/Website_SS.png" alt="NiM Spot-IT: Website Screenshot">
-          <div class="image-label">Website screenshot — UI element focus</div>
+          <div class="example-description">
+            <h4>Website UI Element Focus</h4>
+            <p>Web interfaces contain numerous small interactive elements and textual details. This example showcases how Spot-IT can pinpoint specific UI components, navigation elements, or content sections within complex website layouts, enabling precise information extraction from digital interfaces.</p>
+          </div>
         </div>
       </div>
     </section>
