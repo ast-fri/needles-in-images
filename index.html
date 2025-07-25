@@ -8,43 +8,204 @@
   <meta name="keywords" content="MLLM, computer vision, document VQA, NiM-Benchmark, Spot-IT, fine-grained, AI research">
   <meta name="author" content="Parth Thakkar, Ankush Agarwal, Prasad Kasu, Pulkit Bansal, Chaitanya Devaguptapu">
   <style>
-    body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f6f8fa; color: #222; line-height: 1.7; }
-    .container { max-width: 1050px; margin: 0 auto; padding: 50px 25px; }
-    .header { text-align: center; margin-bottom: 38px; }
-    .header h1 { font-size: 2.6rem; font-weight: 700; color: #263245; letter-spacing: -1px; margin-bottom: 10px; }
-    .header h2 { font-size: 1.1rem; font-weight: 400; color: #556177; margin-bottom: 25px; }
-    .author-list { margin: 18px 0 10px 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; }
-    .author { background: #ecf2fb; border-radius: 7px; padding: 13px 26px; font-size: 1rem; color: #022e57; }
-    .links-section { display: flex; justify-content: center; gap: 16px; margin: 20px 0 40px 0; flex-wrap: wrap; }
-    .link-button { display: inline-flex; align-items: center; gap: 9px; background: #283b5b; color: #fff; text-decoration: none; padding: 10px 24px; border-radius: 26px; font-size: 0.97rem; font-weight: 500; transition: background 0.19s; }
-    .link-button.github { background: #23272e; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ececec;
+      color: #232323;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 50px 25px;
+      background: #f8f9fb;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(51,55,58,0.07);
+      border: 1px solid #e1e4ea;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 36px;
+      padding-top: 13px;
+    }
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #2c364b;
+      letter-spacing: -1px;
+      margin-bottom: 7px;
+    }
+    .header h2 {
+      font-size: 1.07rem;
+      font-weight: 400;
+      color: #556177;
+      margin-bottom: 23px;
+    }
+    .author-list {
+      margin: 15px 0 8px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .author-paper {
+      font-size: 1.04rem;
+      color: #1a233b;
+      margin-bottom: 2px;
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+    .affiliation-paper {
+      color: #5e6375;
+      font-size: 0.99rem;
+      font-family: 'Times New Roman', Times, serif;
+      margin-bottom: 0;
+    }
+    .author-footnote {
+      font-size: 0.92rem;
+      color: #60708e;
+      text-align:center;
+      font-family: 'Times New Roman', Times, serif;
+      margin: 2px 0 12px 0;
+      padding: 0;
+    }
+    .links-section {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 18px 0 38px 0;
+      flex-wrap: wrap;
+    }
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #3d4250;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 23px;
+      border-radius: 28px;
+      font-size: 0.96rem;
+      font-weight: 500;
+      transition: background 0.19s;
+      box-shadow: 0 1.5px 5px rgba(60,85,130,0.08);
+    }
+    .link-button.github { background: #24292e; }
     .link-button.huggingface { background: #ff9900; }
-    .link-button.arxiv { background: #a21c2e; }
-    .link-button:hover { background: #0e4775; }
-    .section { background: #fff; border: 1px solid #e3e8ee; border-radius: 10px; padding: 35px 31px 28px 31px; margin-bottom: 40px; box-shadow: 0 2px 11px rgba(35,51,75,0.02); }
-    .section-title { font-size: 1.4rem; font-weight: 600; margin-bottom: 17px; border-bottom: 1px solid #e5e5e9; display: block; color: #152235; padding-bottom: 9px; }
-    .abstract { font-size: 1.06rem; color: #222; text-align:justify; }
-    .image-row { display: flex; flex-wrap: wrap; gap: 23px; justify-content: center; align-items: flex-end; margin-bottom: 0; }
-    .image-row img { border-radius: 8px; box-shadow: 0 2px 14px rgba(0,0,0,0.10); max-width: 340px; background: #f6faff;}
-    .image-label { text-align: center; color: #64738a; font-size: 0.91rem; margin: 7px 0 0 0; }
-    .highlight-box { background: linear-gradient(135deg, #4367c8 0%, #764ba2 100%); color: #fff; border-radius: 10px; padding: 20px; margin: 26px 0; }
-    .highlight-box h3 { margin: 0 0 10px 0; color: #fff; font-size: 1.12rem;}
-    .results-table { width: 100%; border-collapse: collapse; margin: 16px 0 10px 0; background: #fafdff; }
-    .results-table th, .results-table td { border: 1px solid #e0e5ed; padding: 10.5px 14px; }
-    .results-table th { background: #edf2fa; font-weight: 650; color: #28375b; }
+    .link-button.arxiv { background: #b91c1c; }
+    .link-button:hover { background: #222a33; }
+    .section {
+      background: #f4f6f7;
+      border: 1px solid #e3e8ee;
+      border-radius: 10px;
+      padding: 33px 29px 24px 29px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 10px rgba(35,51,75,0.04);
+    }
+    .section-title {
+      font-size: 1.38rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #d3d5da;
+      display: block;
+      color: #1d233d;
+      padding-bottom: 8px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .abstract {
+      font-size: 1.06rem;
+      color: #222;
+      text-align:justify;
+    }
+    .image-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 23px;
+      justify-content: center;
+      align-items: flex-end;
+      margin-bottom: 0;
+    }
+    .image-row img {
+      border-radius: 8px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.09);
+      max-width: 340px;
+      background: #f6faff;
+    }
+    .image-label {
+      text-align: center;
+      color: #627098;
+      font-size: 0.91rem;
+      margin: 7px 0 0 0;
+    }
+    .highlight-box {
+      background: linear-gradient(135deg, #94a3b8 0%, #abdbe3 100%);
+      color: #183158;
+      border-radius: 10px;
+      padding: 18px 21px 15px 21px;
+      margin: 25px 4px 26px 4px;
+    }
+    .highlight-box h3 {
+      margin: 0 0 8px 0;
+      color: #193960;
+      font-size: 1.09rem;
+    }
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 8px 0;
+      background: #f5f7fa;
+      font-size: 0.99rem;
+    }
+    .results-table th, .results-table td {
+      border: 1px solid #e0e5ed;
+      padding: 10px 11px;
+    }
+    .results-table th {
+      background: #eaf0f7;
+      font-weight: 650;
+      color: #28375b;
+    }
     .results-table tr:nth-child(even) { background: #f6f8fb; }
-    .table-of-contents { background: #f5f7fa; border: 1px solid #e8e9ec; border-radius: 9px; padding: 19px 19px 22px 19px; margin-bottom: 34px; }
-    .table-of-contents h3 { margin-top: 0; font-size: 1.12rem; color: #374151;}
-    .table-of-contents ul { list-style: none; padding-left: 0; }
-    .table-of-contents li { margin: 8.5px 0; }
-    .table-of-contents a { color: #2877c3; text-decoration: none; font-weight: 500; }
-    .table-of-contents a:hover { text-decoration: underline; }
-    .author-role { font-size: 0.91rem; color: #69798c; margin-left: 6px; }
-    .footer { text-align: center; font-size: 0.9rem; color: #a1a6ae; margin-top: 55px; padding: 20px 0 10px 0;}
+    .table-of-contents {
+      background: #e5e7eb;
+      border: 1px solid #dadee8;
+      border-radius: 9px;
+      padding: 18px 17px 20px 18px;
+      margin-bottom: 32px;
+    }
+    .table-of-contents h3 {
+      margin-top: 0;
+      font-size: 1.09rem;
+      color: #374151;
+    }
+    .table-of-contents ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .table-of-contents li {
+      margin: 7.5px 0;
+    }
+    .table-of-contents a {
+      color: #2877c3;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .table-of-contents a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.93rem;
+      color: #808ca0;
+      margin-top: 40px;
+      padding: 17px 0 10px 0;
+    }
     @media (max-width: 780px) {
-      .container { padding: 14px 7px; }
-      .section { padding: 28px 7px 17px 7px; }
-      .author-list { flex-direction: column; align-items: center; gap: 5px;}
+      .container { padding: 11px 2px; }
+      .section { padding: 18px 5px 13px 8px; }
+      .header h1 { font-size: 1.45rem;}
       .image-row { flex-direction: column; }
     }
   </style>
@@ -55,11 +216,21 @@
       <h1>Finding Needles in Images: Can Multi-modal LLMs Locate Fine Details?</h1>
       <h2>A professional overview of the NiM-Benchmark and Spot-IT method for fine-grained document understanding</h2>
       <div class="author-list">
-        <div class="author">Parth Thakkar<span class="author-role">Fujitsu Research India</span></div>
-        <div class="author">Ankush Agarwal<span class="author-role">Fujitsu Research India</span></div>
-        <div class="author">Prasad Kasu<span class="author-role">Fujitsu Research India</span></div>
-        <div class="author">Pulkit Bansal<span class="author-role">Fujitsu Research India / IIT Patna</span></div>
-        <div class="author">Chaitanya Devaguptapu<span class="author-role">Fujitsu Research India</span></div>
+        <div class="author-paper">
+          Parth Thakkar<sup>1,&#42;</sup>,
+          Ankush Agarwal<sup>1,&#42;</sup>,
+          Prasad Kasu<sup>1</sup>,
+          Pulkit Bansal<sup>1,2,†</sup>,
+          Chaitanya Devaguptapu<sup>1</sup>
+        </div>
+        <div class="affiliation-paper">
+          <sup>1</sup>Fujitsu Research India &nbsp;
+          <sup>2</sup>Indian Institute of Technology Patna
+        </div>
+        <div class="author-footnote">
+          <sup>&#42;</sup>Equal contribution &nbsp;&nbsp;
+          <sup>†</sup>Work done at Fujitsu Research India
+        </div>
       </div>
       <div class="links-section">
         <a href="https://github.com/ast-fri/needles-in-images" class="link-button github"><span>📄</span> GitHub</a>
@@ -143,28 +314,28 @@
 
     <section class="section" id="spot-it-method">
       <span class="section-title">Spot-IT: Human-Inspired Fine-Grained Attention for MLLMs</span>
-      <div class="methodology-grid">
-        <div class="method-card">
-          <h4>1. Query-Guided Patch Identification</h4>
+      <div style="display: flex; gap: 24px; flex-wrap: wrap; margin: 20px 0;">
+        <div style="flex: 1 1 300px; background: #edf0f3; border-radius: 8px; padding: 15px 17px; margin-bottom: 12px;">
+          <h4 style="margin-top:0;">1. Query-Guided Patch Identification</h4>
           <ul>
-            <li>Each image is divided into a grid of patches (n x n), empirically optimized at n=6.</li>
-            <li>A vision-language model (SigLip) measures semantic similarity between the user's question and each grid patch.</li>
-            <li>The most relevant patch (highest cosine similarity) is chosen as the "region of interest" for deeper inspection.</li>
+            <li>Image divided into grid patches (empirically n=6).</li>
+            <li>Vision-language model (SigLip) computes semantic similarity between question and each patch.</li>
+            <li>Top patch with highest similarity marked for focus.</li>
           </ul>
         </div>
-        <div class="method-card">
-          <h4>2. Adaptive Gaussian Attention</h4>
+        <div style="flex: 1 1 300px; background: #edf0f3; border-radius: 8px; padding: 15px 17px; margin-bottom: 12px;">
+          <h4 style="margin-top:0;">2. Adaptive Gaussian Attention</h4>
           <ul>
-            <li>A Gaussian mask is generated, centered on the identified patch; its spread is dynamically tuned by the confidence in the patch selection.</li>
-            <li>High-confidence matches yield sharply focused attention, low-confidence gives a broader view (see Eq. 9-11 in the paper).</li>
-            <li>The original image, modulated with this attention mask, is then given to the MLLM for answer generation.</li>
+            <li>Gaussian mask centered on the identified patch; width based on confidence.</li>
+            <li>High-confidence yields sharp focus, low-confidence broadens view.</li>
+            <li>Attended image with mask given to MLLM for answer.</li>
           </ul>
         </div>
-        <div class="method-card">
-          <h4>3. Answer Generation</h4>
+        <div style="flex: 1 1 300px; background: #edf0f3; border-radius: 8px; padding: 15px 17px; margin-bottom: 12px;">
+          <h4 style="margin-top:0;">3. Answer Generation</h4>
           <ul>
-            <li>Standard MLLM DocVQA prompt, with specific emphasis on the attended region.</li>
-            <li>No additional model retraining is needed; Spot-IT is a zero-shot post-processing augmentation.</li>
+            <li>Standard DocVQA prompt, emphasizing attended region.</li>
+            <li>No extra training required; zero-shot augmentation.</li>
           </ul>
         </div>
       </div>
@@ -198,10 +369,10 @@
         Spot-IT was evaluated against both open-source and leading commercial MLLMs, across multiple benchmarks. Key findings:
       </p>
       <ul>
-        <li><b>Spot-IT significantly outperforms</b> basic MLLM and OCR-based DocVQA methods for fine-grained detail tasks, with improvements ranging from 15% to over 20% in key metrics such as EM (Exact Match) and F1 on NiM-Benchmark and ArxiVQA[1].</li>
+        <li><b>Spot-IT significantly outperforms</b> basic MLLM and OCR-based DocVQA methods for fine-grained detail tasks, with improvements ranging from 15% to over 20% in key metrics such as EM (Exact Match) and F1 on NiM-Benchmark and ArxiVQA.</li>
         <li>The challenge remains highly difficult: even state-of-the-art MLLMs like GPT-4o <b>achieve only 38% EM</b>, vs. humans at 63% EM, underscoring the complexity of these visual reasoning tasks.</li>
-        <li>Error analysis indicates that failures are most frequently due to incomplete or hallucinated evidence, as well as perceptual and reasoning errors on fine details.</li>
-        <li>Spot-IT incurred a marginal latency penalty (~4 seconds), judged acceptable for substantial accuracy gains.</li>
+        <li>Error analysis: Most failures are due to incomplete or hallucinated evidence, or misperceptions in fine details.</li>
+        <li>Spot-IT incurs minimal latency penalty (~4 seconds) for substantial accuracy improvement.</li>
       </ul>
       <table class="results-table">
         <tr>
@@ -214,7 +385,7 @@
           <td>GPT-4o</td>
           <td>38</td>
           <td>48</td>
-          <td rowspan="3" style="background:#f6faf9;">63</td>
+          <td rowspan="3" style="background:#f9fcfb;">63</td>
         </tr>
         <tr>
           <td>GPT-4o + Spot-IT</td>
@@ -236,28 +407,35 @@
       <span class="section-title">Implementation Details</span>
       <ul>
         <li>All code and dataset are available via <b>GitHub</b> and <b>Hugging Face</b> (see links above).</li>
-        <li>Spot-IT does not require re-training of underlying models. It is an efficient, modular post-processing step that can plug into existing MLLM VQA pipelines.</li>
-        <li>Experiments conducted on NVIDIA A30 GPUs and with API access to GPT-4o, Gemini, Qwen2, Llama-3.2 and others.</li>
+        <li>Spot-IT is a zero-shot, plug-in post-processing step: no retraining required.</li>
+        <li>Experiments used NVIDIA A30 GPUs and major MLLM APIs (GPT-4o, Gemini, Llama3, Qwen2, etc.).</li>
       </ul>
     </section>
 
     <section class="section" id="authors">
       <span class="section-title">Authors & Affiliations</span>
       <div class="author-list">
-        <div class="author">Parth Thakkar<span class="author-role">Fujitsu Research India</span></div>
-        <div class="author">Ankush Agarwal<span class="author-role">Fujitsu Research India</span></div>
-        <div class="author">Prasad Kasu<span class="author-role">Fujitsu Research India</span></div>
-        <div class="author">Pulkit Bansal<span class="author-role">Fujitsu Research India / IIT Patna</span></div>
-        <div class="author">Chaitanya Devaguptapu<span class="author-role">Fujitsu Research India</span></div>
-      </div>
-      <div style="text-align:center; margin-top:10px; color:#4d5868;">
-        <i>Equal contribution by Parth Thakkar and Ankush Agarwal. Work partly done at Fujitsu Research India by Pulkit Bansal.</i>
+        <div class="author-paper">
+          Parth Thakkar<sup>1,&#42;</sup>,
+          Ankush Agarwal<sup>1,&#42;</sup>,
+          Prasad Kasu<sup>1</sup>,
+          Pulkit Bansal<sup>1,2,†</sup>,
+          Chaitanya Devaguptapu<sup>1</sup>
+        </div>
+        <div class="affiliation-paper">
+          <sup>1</sup>Fujitsu Research India &nbsp;
+          <sup>2</sup>Indian Institute of Technology Patna
+        </div>
+        <div class="author-footnote">
+          <sup>&#42;</sup>Equal contribution &nbsp;&nbsp;
+          <sup>†</sup>Work done at Fujitsu Research India
+        </div>
       </div>
     </section>
 
     <section class="section" id="citation">
       <span class="section-title">How to Cite</span>
-<pre style="background:#f5f7fa; border:1px solid #d8dee9;border-radius:7px;padding:13px 9px;font-size:.99rem;overflow-x:auto; color:#232735;">
+<pre style="background:#e8eaee; border:1px solid #d8dee9;border-radius:7px;padding:12px 7px;font-size:.97rem;overflow-x:auto; color:#232735;">
 @inproceedings{thakkar2024findingneedles,
   title = {Finding Needles in Images: Can Multimodal LLMs Locate Fine Details?},
   author = {Parth Thakkar and Ankush Agarwal and Prasad Kasu and Pulkit Bansal and Chaitanya Devaguptapu},
@@ -266,7 +444,6 @@
 }
 </pre>
     </section>
-
     <div class="footer">
       © 2025 Research Project | Finding Needles in Images (NiM-Benchmark & Spot-IT)
     </div>
